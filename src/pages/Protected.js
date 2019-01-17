@@ -51,7 +51,7 @@ class Protected extends Component{
     render(){
         return (
             <div>
-                <h3>Todo</h3>
+                <h3>Applications</h3>
                 <p>this should be protected...</p>
 
                 {/* PROTECTED CONTENT HERE */}
