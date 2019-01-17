@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import './App.css';
-import Login from './pages/Login';
-import Protected from './pages/Protected';
 import Auth from './components/Auth';
 
 /**
