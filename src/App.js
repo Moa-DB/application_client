@@ -19,4 +19,4 @@ class App extends Component {
         );
     }
 }
-export default withRouter(App);
+export default withRouter(App); //TODO test to see if build works (change back if not???)
