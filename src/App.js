@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import './App.css';
+import Login from './pages/Login';
+import Protected from './pages/Protected';
+import Auth from './components/Auth';
 
 /**
  * Wrapper class that adds Header and Footer to each page.
@@ -11,7 +14,7 @@ class App extends Component {
         return (
             <div className="App">
                 <Header />
-                {this.props.children}
+                <Auth/>
                 <Footer />
             </div>
         );

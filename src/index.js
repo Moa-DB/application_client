@@ -3,16 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import Application from './pages/Application';
+import { BrowserRouter } from 'react-router-dom';
+
+
 
 ReactDOM.render((
     <BrowserRouter>
-        <App>
-            <Route exact={true} path="/" component={Home} />
-            <Route path="/application" component={Application} />
-        </App>
+        <App/>
     </BrowserRouter>
 ), document.getElementById('root'));
 

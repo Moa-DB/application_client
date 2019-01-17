@@ -15,7 +15,12 @@ const Header = () => {
                     </Navbar.Brand>
                 </Navbar.Header>
                 <Nav>
-                    <NavItem href="/applications">
+                    <NavItem href="/public">
+                        Information
+                    </NavItem>
+                </Nav>
+                <Nav>
+                    <NavItem href="/protected">
                         Applications
                     </NavItem>
                 </Nav>

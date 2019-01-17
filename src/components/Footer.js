@@ -1,11 +1,12 @@
 import React from 'react';
+import './Footer.css';
 
 /**
  * The global Footer for the application.
  */
 const Footer = () => {
     return (
-        <div>
+        <div className="Footer">
             <CopyrightLink />
         </div>
     );

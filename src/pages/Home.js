@@ -1,23 +1,18 @@
 import React, { Component } from 'react';
-import LoginForm from '../components/LoginForm';
+import Login from '../pages/Login';
+import Auth from '../components/Auth';
+import Protected from '../pages/Protected';
 
 /**
  * The Home page. Also point of authentication.
  */
 class Home extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-        };
-    }
     render() {
         return (
             <div>
-                <p>Home</p>
-
-                <LoginForm />
-
+                <Login/>
+                <Auth/>
+                <Protected/>
             </div>
         );
     }
