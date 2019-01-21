@@ -18,6 +18,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+  "proxy": "http://192.168.1.7:8080",
   "browserslist": [
     ">0.2%",
     "not dead",

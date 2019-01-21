@@ -3,6 +3,7 @@ import {
     Redirect,
 } from "react-router-dom";
 import {auth} from '../components/Auth';
+import {server} from '../config';
 
 
 class Login extends Component{
@@ -24,13 +25,14 @@ class Login extends Component{
         this.login = this.login.bind(this);
     }
 
-
     login = (event) => {
         event.preventDefault();
         const data = new FormData(event.target);
-        fetch('/perform_login', {
+        const url = server;
+        fetch(url + '/perform_login', {
             method: 'POST',
             body: data,
+            mode: 'no-cors' //TODO this may be a security vulnerability
         })
             .then((response) => {
                 console.log(response)
