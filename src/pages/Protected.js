@@ -16,12 +16,12 @@ class Protected extends Component{
         }
     }
 
-    componentDidMount(){
+ /*   componentDidMount(){
         this.fetchItems()
-    }
+    }*/
 
 
-    fetchItems = () => {
+    /*fetchItems = () => {
 
         fetch('/list', {
             method: 'GET',
@@ -37,7 +37,7 @@ class Protected extends Component{
                 this.setState({data: responseData});
             })
 
-    }
+    }*/
 
     /**
      * Fetches items from database when a new item is added in the frontend

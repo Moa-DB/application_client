@@ -29,13 +29,15 @@ class Login extends Component{
         event.preventDefault();
         const data = new FormData(event.target);
         const url = server;
+
+
+
         fetch(url + '/perform_login', {
             method: 'POST',
             body: data,
-            mode: 'no-cors' //TODO this may be a security vulnerability
         })
             .then((response) => {
-                console.log(response)
+                console.log(response);
                 if(!response.ok && response.status === 401) throw new Error("Unauthorized, wrong username or password");
                 else if(!response.ok && response.status === 500) throw new Error("Internal Server Error");
                 else return response;
