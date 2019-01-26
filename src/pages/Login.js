@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import {
     Redirect,
-    Link
 } from "react-router-dom";
 import {auth} from '../components/Auth';
 import {server} from '../config';
@@ -39,7 +38,6 @@ class Login extends Component{
             body: data,
         })
             .then((response) => {
-                console.log(response);
                 if(!response.ok && response.status === 401) throw new Error("Unauthorized, wrong username or password");
                 else if(!response.ok && response.status === 500) throw new Error("Internal Server Error");
                 else return response;

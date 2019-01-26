@@ -3,12 +3,10 @@ import {
     BrowserRouter as Router,
     Route,
     Redirect,
-    withRouter, Link
 } from "react-router-dom";
 import Application from '../pages/Application';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
-import { Navbar, Nav, NavItem, PageHeader } from 'react-bootstrap';
 import Header from "./Header";
 import Footer from "./Footer";
 import Home from '../pages/Home';
@@ -59,24 +57,6 @@ export const auth = {
 
     }
 }
-
-
-/**
- * Show logout button when logged in and the text You are not logged in when logged out
- * Uses withRouter since AuthButton is'nt rendered by React Router and we wont have history, location or match
- * But withRouter will re-render the component every time the route changes (which is what we want)
- */
-const AuthButton = withRouter(({ history }) => (
-    auth.isAuthenticated ? (
-        <p>
-            <button onClick={() => {
-                auth.signout(() => history.push('/'))
-            }}>Sign out</button>
-        </p>
-    ) : (
-        <p>You are not logged in.</p>
-    )
-))
 
 /**
  * Create a PrivateRoute with same API as Route

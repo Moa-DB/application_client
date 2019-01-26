@@ -11,18 +11,18 @@ class RegistrationForm extends Component{
         super(props)
 
         this.state = {
-            firstName: null,
-            lastName: null,
-            email: null,
-            dateOfBirth: null,
-            username: null,
-            password: null,
-            firstNameError: null,
-            lastNameError: null,
-            emailError: null,
-            dateOfBirthError: null,
-            usernameError: null,
-            passwordError: null,
+            firstName: "",
+            lastName: "",
+            email: "",
+            dateOfBirth: "",
+            username: "",
+            password: "",
+            firstNameError: "",
+            lastNameError: "",
+            emailError: "",
+            dateOfBirthError: "",
+            usernameError: "",
+            passwordError: "",
             genericErrorMessage: "*required"
 
         }
@@ -151,20 +151,16 @@ class RegistrationForm extends Component{
             credentials: 'include',
             method: 'POST',
             body: data,
-        }).
-        then((response) => {
+        }).then((response) => {
             if(!response.ok)
                 return response.json();
             else
                 return response;
-        }).
-        then((response) => {
+        }).then((response) => {
             if(!response.ok) throw new Error(response.message);
             else return response;
-        })
-            .then((data) => {
+        }).then((data) => {
                 alert("User created");
-                this.props.history.replace('/login');
             })
             .catch((error) => {
                 alert(error);

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Navbar, Nav, NavItem, PageHeader, Button } from 'react-bootstrap';
+import { Navbar, Nav, PageHeader } from 'react-bootstrap';
 import {Link, withRouter} from 'react-router-dom';
 import {auth} from '../components/Auth';
 import './Header.css';
@@ -15,7 +15,7 @@ class Header extends Component {
     render() {
         return (
             <PageHeader>
-                <h1>APPLICATION PORTAL</h1>
+                APPLICATION PORTAL
                 <Navbar>
                     <Navbar.Header>
                         <Navbar.Brand>
@@ -38,7 +38,7 @@ class Header extends Component {
                     </ul>
                     </Navbar.Brand>
                 </Navbar>
-                <h2>{this.props.location.pathname.substring(1)}</h2>
+                {this.props.location.pathname.substring(1)}
             </PageHeader>
         );
     }

@@ -57,11 +57,10 @@ class ApplicationForm extends Component {
     }
 
     handleSelect(event) {
-        this.setState({competence: event.target.value}, console.log(this.state.competence));
+        this.setState({competence: event.target.value});
     }
 
     handleInputChange(event) {
-        console.log(event.target)
         const target = event.target;
         const value = target.value;
         const name = target.name;
@@ -266,7 +265,6 @@ class ApplicationForm extends Component {
     }
 
     sendApplication(){
-        console.log(this.state.selectedCompetenceProfiles)
         if(this.state.selectedCompetenceProfiles.length < 1 || this.state.selectedAvailabilities.length < 1) {
             alert("Please add at least one competence profile and availability")
             return;
