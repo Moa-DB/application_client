@@ -1,32 +1,61 @@
-import React from 'react';
-import { Navbar, Nav, NavItem, PageHeader } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import React, {Component} from 'react';
+import { Navbar, Nav, NavItem, PageHeader, Button } from 'react-bootstrap';
+import {Link, withRouter} from 'react-router-dom';
+import {auth} from '../components/Auth';
+import './Header.css';
 
-/**
- * The global Header for the application.
- */
-const Header = () => {
-    return (
-        <PageHeader>
-            <Navbar>
-                <Navbar.Header>
+
+class Header extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+        }
+    }
+    render() {
+        return (
+            <PageHeader>
+                <h1>APPLICATION PORTAL</h1>
+                <Navbar>
+                    <Navbar.Header>
+                        <Navbar.Brand>
+                            <Link to ='/home' >home</Link>
+                        </Navbar.Brand>
+                    </Navbar.Header>
+                    <Nav>
+                        <Navbar.Brand>
+                            <Link to ='/register' >register</Link>
+                        </Navbar.Brand>
+                    </Nav>
+                    <Nav>
+                        <Navbar.Brand>
+                            <Link to ='/application' >application</Link>
+                        </Navbar.Brand>
+                    </Nav>
                     <Navbar.Brand>
-                        <Link to="/">Home</Link>
+                    <ul className="nav navbar-nav navbar-right">
+                    <AuthButton/>
+                    </ul>
                     </Navbar.Brand>
-                </Navbar.Header>
-                <Nav>
-                    <NavItem href="/public">
-                        Information
-                    </NavItem>
-                </Nav>
-                <Nav>
-                    <NavItem href="/protected">
-                        Applications
-                    </NavItem>
-                </Nav>
-            </Navbar>
-        </PageHeader>
-    );
-};
+                </Navbar>
+                <h2>{this.props.location.pathname.substring(1)}</h2>
+            </PageHeader>
+        );
+    }
+}
 
-export default Header;
+const AuthButton = withRouter(({ history }) => (
+    auth.isAuthenticated ? (
+            <button type="button" id="headerButton"
+                    onClick={() => {
+                auth.signout(() => history.push('/login'))
+            }}>sign out {auth.user}</button>
+    ) : (
+        <button type="button" id="headerButton"
+                onClick={() => {
+                    history.replace('/login');
+                }}>log in</button>
+    )
+))
+
+export default withRouter(Header);

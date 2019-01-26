@@ -3,10 +3,15 @@ import {
     BrowserRouter as Router,
     Route,
     Redirect,
-    withRouter
+    withRouter, Link
 } from "react-router-dom";
-import Protected from '../pages/Protected';
+import Application from '../pages/Application';
 import Login from '../pages/Login';
+import Register from '../pages/Register';
+import { Navbar, Nav, NavItem, PageHeader } from 'react-bootstrap';
+import Header from "./Header";
+import Footer from "./Footer";
+import Home from '../pages/Home';
 
 
 /**
@@ -19,10 +24,12 @@ function Auth() {
     return (
         <Router>
             <div>
-                <AuthButton/>
-                <Route path="/public" component={Public}/>
+                <Header />
+                <Route path="/home" component={Home}/>
+                <Route path="/register" component={Register}/>
                 <Route path="/login" component={Login}/>
-                <PrivateRoute path='/protected' component={Protected} />
+                <PrivateRoute path='/application' component={Application} />
+                <Footer/>
             </div>
         </Router>
     )
@@ -37,8 +44,9 @@ export const auth = {
     user: "",
     isAuthenticated: false,
     authenticate(cb) {
-        this.isAuthenticated = true
-        setTimeout(cb, 100)
+        this.isAuthenticated = true;
+        cb();
+        //setTimeout(cb, 100)
 
         // this.getItems(cb)
     },
@@ -88,14 +96,5 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
             }} /> )
     )} />
 )
-
-
-
-const Public = () =>
-    <div>
-        <h3>About this site</h3>
-        <span>Use this site to apply to jobs for...</span>
-        <span>You have to register an account to use this site</span>
-    </div>;
 
 export default Auth;

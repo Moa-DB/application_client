@@ -1,0 +1,76 @@
+
+
+
+h1{
+    font-size: 1.5em;
+}
+
+h2{
+    font-size: 1.1em;
+}
+
+p{
+    font-weight: bold;
+}
+
+ul {
+    /*list-style-type: none;*/
+}
+
+li{
+    /*border: 1px solid black;
+    border-radius: 1em;
+    display: block;
+    width: 20em;
+    display:inline;
+    padding: 0.5em;*/
+}
+
+.X{
+    color: red;
+    padding: 0;
+}
+
+.All{
+    border-color: black;
+    border-style: solid;
+    border-radius: 1em;
+    width: 30%;
+    margin: auto;
+    padding-bottom: 1em;
+    padding-top: 1em;
+}
+
+.ListAll{
+    border-color: black;
+    border-style: solid;
+    border-radius: 1em;
+    width: 30%;
+    padding-bottom: 1em;
+    padding-top: 1em;
+    float: right;
+    margin-right: 4%;
+}
+
+.OuterDiv{
+    width: 80%;
+    margin: auto;
+}
+
+.listItem{
+    list-style-type: none;
+}
+
+#years{
+    width: 3em;
+}
+
+#showApplication{
+    border-color: black;
+    border-style: solid;
+    border-radius: 1em;
+    width: 30%;
+    margin: auto;
+    padding-bottom: 1em;
+    padding-top: 1em;
+ }

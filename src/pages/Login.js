@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {
     Redirect,
+    Link
 } from "react-router-dom";
 import {auth} from '../components/Auth';
 import {server} from '../config';
@@ -33,6 +34,7 @@ class Login extends Component{
 
 
         fetch(url + '/perform_login', {
+            credentials: 'include',
             method: 'POST',
             body: data,
         })
@@ -44,7 +46,7 @@ class Login extends Component{
             })
             .then((data) => {
                 auth.authenticate(() => {
-                    this.setState({ redirectToReferrer: true });
+                    this.setState({ redirectToReferrer: true }, ()=>{auth.user = this.state.username; this.props.history.replace('/application')});
                 });
             })
             .catch((error) => {
@@ -93,8 +95,11 @@ class Login extends Component{
                             value={this.state.password}
                             onChange={this.handleInputChange}/>
                     </label>
+                    <br/>
                     <input type="submit" value="Submit" />
                 </form>
+                <br/>
+                <button onClick={()=>this.props.history.replace('/register')}>Register</button>
             </div>
         )
     }
