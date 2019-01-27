@@ -34,11 +34,12 @@ class ApplicationForm extends Component {
         this.onChangeApplication = this.onChangeApplication.bind(this);
         this.sendApplication = this.sendApplication.bind(this);
         this.showApplication = this.showApplication.bind(this);
+        this.cancel = this.cancel.bind(this);
     }
 
 
     componentDidMount() {
-        var today = new Date();
+        let today = new Date();
         this.setState({
             fromDate: today,
             toDate: today + 1,
@@ -73,7 +74,7 @@ class ApplicationForm extends Component {
     selectCompetence() {
         if(this.state.competences !== null){
             return <div >
-                <p>select competence below:</p>
+                <p className="FormText">select competence below:</p>
                 <select name="competence" value={this.state.competence} onChange={this.handleSelect}>
                     { this.state.competences.map((competence) =>
                         <option
@@ -90,7 +91,7 @@ class ApplicationForm extends Component {
     selectYears(){
         return(
                 <label>
-                    <p>write years of experience in {this.state.competence.toLocaleLowerCase()} below:</p>
+                    <p className="FormText">write years of experience in {this.state.competence.toLocaleLowerCase()} below:</p>
                 <input
                     id={"years"}
                     name="years"
@@ -127,7 +128,7 @@ class ApplicationForm extends Component {
     selectedCompetences(){
         if(this.state.selectedCompetenceProfiles.length > 0){
             return <div className="ListAll">
-                <p>You have chosen the competence profiles listed below:</p>
+                <p className="FormText">You have chosen the competence profiles listed below:</p>
                 <ul>
                 { this.state.selectedCompetenceProfiles.map((competenceProfile, index) =>
                     <li key={"l" + competenceProfile.competence}>
@@ -157,7 +158,7 @@ class ApplicationForm extends Component {
     selectAvailability(){
        return (<div>
            <label>
-               <p>from date:</p>
+               <p className="FormText">from date:</p>
                 <input
                     name="fromDate"
                     type="date"
@@ -166,7 +167,7 @@ class ApplicationForm extends Component {
             </label>
            <br/>
             <label>
-                <p>to date:</p>
+                <p className="FormText">to date:</p>
                 <input
                     name="toDate"
                     type="date"
@@ -200,10 +201,10 @@ class ApplicationForm extends Component {
     selectedAvailabilities(){
         if(this.state.selectedAvailabilities.length > 0){
             return <div className="ListAll">
-                <p>You have chosen the availabilities listed below:</p>
+                <p className="FormText">You have chosen the availabilities listed below:</p>
                 <ul>
                 { this.state.selectedAvailabilities.map((availability, index) =>
-                    <li key={availability.fromDate + availability.toDate}>{"from date: " + availability.fromDate + ", to date: " + availability.toDate}
+                    <li key={availability.fromDate + availability.toDate}>{"from: " + availability.fromDate + ", to: " + availability.toDate}
                         <button
                             className="X"
                             onClick={()=>this.removeAvailability(index)}
@@ -250,15 +251,17 @@ class ApplicationForm extends Component {
 
     showApplication(){
         return(
-            <div id={"showApplication"}><h2>Competence profiles: </h2>
+            <div id={"showApplication"}>
+                <h2>Competence profiles: </h2>
                 <ul>
                 {this.state.selectedCompetenceProfiles.map((competenceProfile, index) =>
                     <li key={"l" + competenceProfile.competence}>
                         {competenceProfile.competence + ", " + competenceProfile.years + " years"}
-                    </li>)}<br/>
+                    </li>)}</ul><br/>
                 <h2>Availabilities: </h2>
+                <ul>
                 {this.state.selectedAvailabilities.map((availability, index) =>
-            <li key={availability.fromDate + availability.toDate}>{"from date: " + availability.fromDate + ", to date: " + availability.toDate}
+            <li key={availability.fromDate + availability.toDate}>{"from: " + availability.fromDate + ", to: " + availability.toDate}
             </li>)}
                 </ul>
             </div>)
@@ -297,6 +300,16 @@ class ApplicationForm extends Component {
         });
     }
 
+    cancel(){
+        this.setState({
+            chooseCompetenceProfile: true,
+            chooseAvailability: false,
+            overView: false,
+            donePicking: false,
+        })
+    }
+
+
     render() {
 
 
@@ -310,6 +323,9 @@ class ApplicationForm extends Component {
                     <br/>
                     <br/>
                     <button name="send" onClick={this.sendApplication} >hand in application</button>
+                    <br/>
+                    <br/>
+                    <button name="cancel" onClick={this.cancel} >cancel</button>
                 </div>
             );
         }
