@@ -11,26 +11,41 @@ class Login extends Component{
     state = {
         redirectToReferrer: false,
         username: "",
-        password: ""
+        password: "",
+        usernameError: "",
+        passwordError: "",
+        genericErrorMessage: "*required"
     }
 
     constructor(props) {
         super(props);
-        this.state = {
-            redirectToReferrer: false,
-            username: "",
-            password: "",};
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.login = this.login.bind(this);
+        this.errors = this.errors.bind(this);
     }
 
-    login = (event) => {
+    errors(){
+        let error = false;
+        if (this.state.username === null || this.state.username === "") {
+            this.setState(() => ({ usernameError: this.state.genericErrorMessage}));
+            error = true;
+        }
+        if (this.state.password === null || this.state.password === "") {
+            this.setState(() => ({ passwordError: this.state.genericErrorMessage}));
+            error = true;
+        }
+        return error;
+
+    }
+
+    login(event){
         event.preventDefault();
+        if(this.errors())
+            return;
+
         const data = new FormData(event.target);
         const url = server;
-
-
 
         fetch(url + '/perform_login', {
             credentials: 'include',
@@ -38,7 +53,7 @@ class Login extends Component{
             body: data,
         })
             .then((response) => {
-                if(!response.ok && response.status === 401) throw new Error("Unauthorized, wrong username or password");
+                if(!response.ok && response.status === 401) throw new Error("Wrong username or password");
                 else if(!response.ok && response.status === 500) throw new Error("Internal Server Error");
                 else return response;
             })
@@ -59,7 +74,9 @@ class Login extends Component{
 
 
         this.setState({
-            [name]: value
+            [name]: value,
+            [name + "Error"]: null,
+
         });
     }
 
@@ -82,7 +99,7 @@ class Login extends Component{
                             type="text"
                             value={this.state.username}
                             onChange={this.handleInputChange}/>
-
+                        {!!this.state.usernameError && (<p style={{color: 'red', float: "right"}}>{this.state.usernameError}</p>)}
                     </label>
                     <br />
                     <label>
@@ -92,6 +109,7 @@ class Login extends Component{
                             type="password"
                             value={this.state.password}
                             onChange={this.handleInputChange}/>
+                        {!!this.state.passwordError && (<p style={{color: 'red', float: "right"}}>{this.state.passwordError}</p>)}
                     </label>
                     <br/>
                     <input type="submit" value="Submit" />
