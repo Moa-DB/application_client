@@ -3,6 +3,11 @@ import {server} from '../config';
 import './ApplicationForm.css';
 
 
+/**
+ * Lets the user create an application in three steps. Step one lets the user choose competence from a drop down list and
+ * write number of years in that competence in a input field. Step two lets the user add time periods to the application
+ * by giving two dates as input. Step three lets the user view the application and then hand it in or cancel.
+ */
 class ApplicationForm extends Component {
     constructor() {
         super();
@@ -34,7 +39,7 @@ class ApplicationForm extends Component {
         this.onChangeApplication = this.onChangeApplication.bind(this);
         this.sendApplication = this.sendApplication.bind(this);
         this.showApplication = this.showApplication.bind(this);
-        this.cancel = this.cancel.bind(this);
+        this.reset = this.reset.bind(this);
     }
 
 
@@ -48,6 +53,9 @@ class ApplicationForm extends Component {
         this.fetchCompetences();
     }
 
+    /**
+     * GETs all the competences from the server.
+     */
     fetchCompetences() {
         fetch(server + "/competences",
             {credentials: 'include'}
@@ -57,10 +65,18 @@ class ApplicationForm extends Component {
             .catch(e => console.log(e))
     }
 
+    /**
+     * Handles changed selection in the competence selector.
+     * @param event
+     */
     handleSelect(event) {
         this.setState({competence: event.target.value});
     }
 
+    /**
+     * Handles input from the input fields.
+     * @param event
+     */
     handleInputChange(event) {
         const target = event.target;
         const value = target.value;
@@ -71,6 +87,10 @@ class ApplicationForm extends Component {
         });
     }
 
+    /**
+     * Drop down list which displays all the competences fetched from the server and lets the user select a competence.
+     * @returns {*}
+     */
     selectCompetence() {
         if(this.state.competences !== null){
             return <div >
@@ -88,6 +108,10 @@ class ApplicationForm extends Component {
         }
     }
 
+    /**
+     * Input which lets the user give a double representing number of years in a competence.
+     * @returns {*}
+     */
     selectYears(){
         return(
                 <label>
@@ -102,6 +126,10 @@ class ApplicationForm extends Component {
         )
     }
 
+    /**
+     * Creates a "Competence Profile" object from the selected competence and given years of experience, and adds
+     * it to the list of "selectedCompetenceProfiles".
+     */
     onSubmitCompetenceProfile(){
         let competencesArray = this.state.selectedCompetenceProfiles;
         competencesArray.map((competenceProfile, index) =>
@@ -110,7 +138,7 @@ class ApplicationForm extends Component {
         )
         competencesArray.push({
             "competence": this.state.competence,
-            "years": this.state.years
+            "years_of_experience": this.state.years
         })
         this.setState({
             selectedCompetenceProfiles: competencesArray,
@@ -119,12 +147,27 @@ class ApplicationForm extends Component {
         })
     }
 
+    /**
+     *Returns true if the given dates are invalid in some way. mapFrom and mapTo represents a time frame given earlier.
+     * testFrom and testTo are the new time frame that the user wants to add.
+     * @param mapFrom
+     * @param mapTo
+     * @param testFrom
+     * @param testTo
+     * @returns {boolean}
+     */
     checkDatesTaken(mapFrom, mapTo, testFrom, testTo){
         if(mapFrom <= testFrom && testFrom <= mapTo)return true;
         if(mapFrom <= testTo && testTo <= mapTo)return true;
         if(testFrom < mapFrom && mapTo < testTo)return true;
+        if(testFrom >= testTo)return true;
     }
 
+    /**
+     * Iterates trough all created "Competence Profiles" and displays them as list items with a delete button to
+     * delete individual elements.
+     * @returns {*}
+     */
     selectedCompetences(){
         if(this.state.selectedCompetenceProfiles.length > 0){
             return <div className="ListAll">
@@ -147,6 +190,10 @@ class ApplicationForm extends Component {
         }
     }
 
+    /**
+     * Removes a "Competence Profile" object from the list.
+     * @param index
+     */
     removeCompetenceProfile(index){
         let competencesArray = this.state.selectedCompetenceProfiles;
         competencesArray.splice(index, 1);
@@ -155,6 +202,10 @@ class ApplicationForm extends Component {
         })
     }
 
+    /**
+     * Generates input fields for giving a to and from date to create an "Availability" time frame.
+     * @returns {*}
+     */
     selectAvailability(){
        return (<div>
            <label>
@@ -176,40 +227,49 @@ class ApplicationForm extends Component {
             </label></div>)
     }
 
+    /**
+     * Iterates trough the list of created "Availabilities" and checks if the newly created time frame is valid.
+     * If valid a availability object is created and added to the list of created availabilities.
+     */
     onSubmitAvailability(){
         let availabilitiesArray = this.state.selectedAvailabilities;
         let dateCollision = false;
         availabilitiesArray.map((availability, index) =>
-            this.checkDatesTaken(availability.fromDate, availability.toDate, this.state.fromDate, this.state.toDate) ?
+            this.checkDatesTaken(availability.from, availability.to, this.state.fromDate, this.state.toDate) ?
                 dateCollision = true : null)
 
         if(!dateCollision){
             availabilitiesArray.push({
-                "fromDate": this.state.fromDate,
-                "toDate": this.state.toDate
+                "from": this.state.fromDate,
+                "to": this.state.toDate
             })
             this.setState({
                 selectedAvailabilities: availabilitiesArray,
             })
         }
         else{
-            alert("The time frame you have chosen overlaps one of your previously selected time frames. " +
+            alert("The time frame you have chosen overlaps one of your previously selected time frames or you have given a later from date than the to date." +
                 "Please delete the old time frame or choose another that does not overlap any other time frames.")
         }
     }
 
+    /**
+     * Iterates trough all created "Availabilities" and displays them as list items with a delete button to
+     * delete individual elements.
+     * @returns {*}
+     */
     selectedAvailabilities(){
         if(this.state.selectedAvailabilities.length > 0){
             return <div className="ListAll">
                 <p className="FormText">You have chosen the availabilities listed below:</p>
                 <ul>
                 { this.state.selectedAvailabilities.map((availability, index) =>
-                    <li key={availability.fromDate + availability.toDate}>{"from: " + availability.fromDate + ", to: " + availability.toDate}
+                    <li key={availability.from + availability.to}>{"from: " + availability.from + ", to: " + availability.to}
                         <button
                             className="X"
                             onClick={()=>this.removeAvailability(index)}
                             name="X"
-                            key={availability.fromDate + availability.toDate}>X
+                            key={availability.from + availability.to}>X
                         </button>
                     </li>)
                 }
@@ -218,6 +278,10 @@ class ApplicationForm extends Component {
         }
     }
 
+    /**
+     * Removes a "Availability"
+     * @param index
+     */
     removeAvailability(index){
         let availabilityArray = this.state.selectedAvailabilities;
         availabilityArray.splice(index, 1);
@@ -226,6 +290,9 @@ class ApplicationForm extends Component {
         })
     }
 
+    /**
+     * Used to modify state parameters that determine what view is rendered.
+     */
     onContinue(){
         if(this.state.chooseAvailability){
             this.setState({
@@ -238,6 +305,10 @@ class ApplicationForm extends Component {
         })
     }
 
+    /**
+     * Used to modify state parameters that determine what view is rendered.
+     * @param status
+     */
     onChangeApplication(status){
         if(status === "Availabilities" && this.state.chooseCompetenceProfile && this.state.donePicking){
             status = "overView";
@@ -249,6 +320,11 @@ class ApplicationForm extends Component {
         }, ()=> status === "overView" ? this.setState({donePicking: true}) : null);
     }
 
+    /**
+     * Iterates trough all "Competence Profiles" and "Availabilities" created and added by the user, to display an
+     * overview of the application to the user.
+     * @returns {*}
+     */
     showApplication(){
         return(
             <div id={"showApplication"}>
@@ -261,20 +337,25 @@ class ApplicationForm extends Component {
                 <h2>Availabilities: </h2>
                 <ul>
                 {this.state.selectedAvailabilities.map((availability, index) =>
-            <li key={availability.fromDate + availability.toDate}>{"from: " + availability.fromDate + ", to: " + availability.toDate}
+            <li key={availability.from + availability.to}>{"from: " + availability.from + ", to: " + availability.to}
             </li>)}
                 </ul>
             </div>)
     }
 
+    /**
+     * Arranges the user created "Competence Profiles" and "Availabilities" in a form the server is expecting. Then
+     * posts the object as JSON. On success, the state is reset.
+     */
     sendApplication(){
         if(this.state.selectedCompetenceProfiles.length < 1 || this.state.selectedAvailabilities.length < 1) {
             alert("Please add at least one competence profile and availability")
             return;
         }
+
         let application = {
-            "competenceProfiles": this.state.selectedCompetenceProfiles,
-            "availabilities": this.state.selectedAvailabilities,
+            "competences": this.state.selectedCompetenceProfiles,
+            "available": this.state.selectedAvailabilities,
         }
 
         fetch(server + '/applications', {
@@ -295,15 +376,24 @@ class ApplicationForm extends Component {
             else return response;
         }).then((data) => {
             alert("Application posted!");
+            this.reset();
         }).catch((error) => {
             alert(error);
         });
     }
 
-    cancel(){
+    /**
+     * Resets the state. Some parameters are not reset to avoid null variables.
+     */
+    reset(){
         this.setState({
             chooseCompetenceProfile: true,
             chooseAvailability: false,
+            showMenu: false,
+            selectedCompetenceProfiles: [],
+            selectedAvailabilities: [],
+            competence: "",
+            years: 0.0,
             overView: false,
             donePicking: false,
         })
@@ -325,7 +415,7 @@ class ApplicationForm extends Component {
                     <button name="send" onClick={this.sendApplication} >hand in application</button>
                     <br/>
                     <br/>
-                    <button name="cancel" onClick={this.cancel} >cancel</button>
+                    <button name="cancel" onClick={this.reset} >cancel</button>
                 </div>
             );
         }

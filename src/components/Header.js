@@ -4,7 +4,9 @@ import {Link, withRouter} from 'react-router-dom';
 import {auth} from '../components/Auth';
 import './Header.css';
 
-
+/**
+ * Presents the user with a navigation bar to navigate the various pages of the web app.
+ */
 class Header extends Component {
     constructor(props) {
         super(props)
@@ -44,6 +46,11 @@ class Header extends Component {
     }
 }
 
+/**
+ * Presents the user with a log in button if the user is not logged in and a log out button with username if the user is
+ * logged in.
+ * @type {React.ComponentType<Own>}
+ */
 const AuthButton = withRouter(({ history }) => (
     auth.isAuthenticated ? (
             <button type="button" id="headerButton"

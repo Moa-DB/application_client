@@ -1,6 +1,10 @@
 import React, {Component} from "react";
 import {server} from '../config';
+import { withRouter } from 'react-router-dom'
 
+/**
+ * Presents the user with input fields for registration of new user. Given values are posted to the server using fetch.
+ */
 class RegistrationForm extends Component{
 
     componentDidUpdate(){
@@ -111,6 +115,11 @@ class RegistrationForm extends Component{
         )
     }
 
+    /**
+     * Checks if any of the input fields are empty and in that case sets the corresponding error state variable to an
+     * error message.
+     * @returns {boolean}
+     */
     errors(){
         let error = false;
         if (this.state.firstName === null || this.state.firstName === "") {
@@ -141,6 +150,10 @@ class RegistrationForm extends Component{
 
     }
 
+    /**
+     * Checks for errors and then post form to server. Redirects to login page on success, displays error message on failure.
+     * @param event
+     */
     handleSubmit(event) {
         event.preventDefault();
         if(this.errors())
@@ -161,6 +174,7 @@ class RegistrationForm extends Component{
             else return response;
         }).then((data) => {
                 alert("User created");
+            this.props.history.replace('/login');
             })
             .catch((error) => {
                 alert(error);
@@ -168,4 +182,4 @@ class RegistrationForm extends Component{
     }
 }
 
-export default RegistrationForm;
+export default  withRouter(RegistrationForm);

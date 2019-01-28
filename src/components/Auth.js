@@ -13,8 +13,9 @@ import Home from '../pages/Home';
 
 
 /**
- * Anyone can access public but when a user tries to access a protected page
- * they should be redirected to login
+ * This is where the "Router" which handles navigation is implemented and all the paths initiated.
+ * A header and a footer is always present. Anyone can access route but when a user tries to access a private route page
+ * they should be redirected to login.
  * @returns {*}
  * @constructor
  */
@@ -34,7 +35,7 @@ function Auth() {
 }
 
 /**
- * Set authenticated to true or false
+ * Set authenticated to true or false. Stores currently logged in username.
  *
  * @type {{user: string, isAuthenticated: boolean, authenticate(*=): void, signout(*=): void, getItems(*)}}
  */
@@ -44,14 +45,11 @@ export const auth = {
     authenticate(cb) {
         this.isAuthenticated = true;
         cb();
-        //setTimeout(cb, 100)
-
-        // this.getItems(cb)
     },
     signout(cb) {
         this.user = ""
         this.isAuthenticated = false
-        setTimeout(cb, 100)
+        cb();
     },
     getItems(cb) {
 

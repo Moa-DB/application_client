@@ -5,7 +5,10 @@ import {
 import {auth} from '../components/Auth';
 import {server} from '../config';
 
-
+/**
+ * Presents the user with a log in form taking username and password. The given values is then posted to the server as a
+ * form using fetch.
+ */
 class Login extends Component{
 
     state = {
@@ -25,6 +28,11 @@ class Login extends Component{
         this.errors = this.errors.bind(this);
     }
 
+    /**
+     * Checks if any of the input fields are empty and in that case sets the corresponding error state variable to an
+     * error message.
+     * @returns {boolean}
+     */
     errors(){
         let error = false;
         if (this.state.username === null || this.state.username === "") {
@@ -39,6 +47,11 @@ class Login extends Component{
 
     }
 
+    /**
+     * Checks for errors and then posts the login form to the server. On success sets authenticated to true and adds username in const auth in file
+     * Auth. Displays alert box with error message on fail.
+     * @param event
+     */
     login(event){
         event.preventDefault();
         if(this.errors())
@@ -82,7 +95,7 @@ class Login extends Component{
 
     render(){
 
-        const { from } = this.props.location.state || { from: { pathname: '/' } } /* save the route the user came from to be able to redirect after login */
+        const { from } = this.props.location.state || { from: { pathname: '/' } }
         const { redirectToReferrer } = this.state
 
         if (redirectToReferrer === true) {
