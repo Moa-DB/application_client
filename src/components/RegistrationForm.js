@@ -160,6 +160,7 @@ class RegistrationForm extends Component{
             return;
 
         const data = new FormData(event.target);
+        data.append("role", "applicant")
         fetch(server + '/registration', {
             credentials: 'include',
             method: 'POST',
