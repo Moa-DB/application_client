@@ -170,7 +170,6 @@ class ApplicationForm extends Component {
      */
     selectedCompetences(){
         if(this.state.selectedCompetenceProfiles.length > 0){
-            console.log(this.state.selectedCompetenceProfiles[0])
             return <div className="ListAll">
                 <p className="FormText">You have chosen the competence profiles listed below:</p>
                 <ul>
@@ -396,7 +395,6 @@ class ApplicationForm extends Component {
             showMenu: false,
             selectedCompetenceProfiles: [],
             selectedAvailabilities: [],
-            competence: "",
             years: 0.0,
             overView: false,
             donePicking: false,
