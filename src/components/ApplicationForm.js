@@ -170,12 +170,13 @@ class ApplicationForm extends Component {
      */
     selectedCompetences(){
         if(this.state.selectedCompetenceProfiles.length > 0){
+            console.log(this.state.selectedCompetenceProfiles[0])
             return <div className="ListAll">
                 <p className="FormText">You have chosen the competence profiles listed below:</p>
                 <ul>
                 { this.state.selectedCompetenceProfiles.map((competenceProfile, index) =>
                     <li key={"l" + competenceProfile.competence}>
-                        {competenceProfile.competence + ", " + competenceProfile.years + " years"}
+                        {competenceProfile.competence + ", " + competenceProfile.years_of_experience + " years"}
                         <button
                             className="X"
                             onClick={()=>this.removeCompetenceProfile(index)}
@@ -208,6 +209,7 @@ class ApplicationForm extends Component {
      */
     selectAvailability(){
        return (<div>
+
            <label>
                <p className="FormText">from date:</p>
                 <input
@@ -224,7 +226,9 @@ class ApplicationForm extends Component {
                     type="date"
                     value={this.state.toDate}
                     onChange={this.handleInputChange}/>
-            </label></div>)
+            </label>
+
+       </div>)
     }
 
     /**
@@ -279,7 +283,7 @@ class ApplicationForm extends Component {
     }
 
     /**
-     * Removes a "Availability"
+     * Removes an "Availability"
      * @param index
      */
     removeAvailability(index){

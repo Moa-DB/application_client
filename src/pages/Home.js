@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 /**
- * The Home page. Also point of authentication.
+ * The Home page.
  */
 class Home extends Component {
     render() {
