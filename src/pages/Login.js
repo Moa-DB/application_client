@@ -76,7 +76,7 @@ class Login extends Component{
                     data.roles[0].name === "applicant" ?
                     this.setState({ redirectToReferrer: true }, ()=>{auth.user = data.username; this.props.history.replace('/application')})
                 :
-                    alert("You are not authorized to use this web site. \n" + "Required authority: applicant \n" + "Your authority: " + data.roles[0].name);
+                    alert("You are not authorized to use this web site. \n Required authority: applicant \n Your authority: " + data.roles[0].name);
                 });
             })
             .catch((error) => {
