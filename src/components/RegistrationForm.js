@@ -158,13 +158,24 @@ class RegistrationForm extends Component{
         event.preventDefault();
         if(this.errors())
             return;
-
-        const data = new FormData(event.target);
-        data.append("role", "applicant")
+        const jsonRequest =
+            {
+                "username": this.state.username,
+                "password": this.state.password,
+                "firstName": this.state.firstName,
+                "lastName": this.state.lastName,
+                "email": this.state.email,
+                "dateOfBirth": this.state.dateOfBirth,
+                "role": "applicant",
+            }
         fetch(server + '/registration', {
             credentials: 'include',
             method: 'POST',
-            body: data,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonRequest),
         }).then((response) => {
             if(!response.ok)
                 return response.json();

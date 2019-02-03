@@ -335,7 +335,7 @@ class ApplicationForm extends Component {
                 <ul>
                 {this.state.selectedCompetenceProfiles.map((competenceProfile, index) =>
                     <li key={"l" + competenceProfile.competence}>
-                        {competenceProfile.competence + ", " + competenceProfile.years + " years"}
+                        {competenceProfile.competence + ", " + competenceProfile.years_of_experience + " years"}
                     </li>)}</ul><br/>
                 <h2>Availabilities: </h2>
                 <ul>
@@ -365,8 +365,8 @@ class ApplicationForm extends Component {
             credentials: 'include',
             method: 'POST',
             headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(application),
         }).then((response) => {

@@ -48,7 +48,8 @@ class Login extends Component{
     }
 
     /**
-     * Checks for errors and then posts the login form to the server. On success sets authenticated to true and adds username in const auth in file
+     * Checks for errors and then posts the login form to the server. Checks if the user has the right authority.
+     * If not, the user is not allowed to log in. On success sets authenticated to true and adds username in const auth in file
      * Auth. Displays alert box with error message on fail.
      * @param event
      */
@@ -68,11 +69,14 @@ class Login extends Component{
             .then((response) => {
                 if(!response.ok && response.status === 401) throw new Error("Wrong username or password");
                 else if(!response.ok && response.status === 500) throw new Error("Internal Server Error");
-                else return response;
+                else return response.json();;
             })
             .then((data) => {
                 auth.authenticate(() => {
-                    this.setState({ redirectToReferrer: true }, ()=>{auth.user = this.state.username; this.props.history.replace('/application')});
+                    data.roles[0].name === "applicant" ?
+                    this.setState({ redirectToReferrer: true }, ()=>{auth.user = data.username; this.props.history.replace('/application')})
+                :
+                    alert("You are not authorized to use this web site. \n" + "Required authority: applicant \n" + "Your authority: " + data.roles[0].name);
                 });
             })
             .catch((error) => {
