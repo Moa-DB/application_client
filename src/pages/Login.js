@@ -69,7 +69,7 @@ class Login extends Component{
             .then((response) => {
                 if(!response.ok && response.status === 401) throw new Error("Wrong username or password");
                 else if(!response.ok && response.status === 500) throw new Error("Internal Server Error");
-                else return response.json();;
+                else return response.json();
             })
             .then((data) => {
                 auth.authenticate(() => {
