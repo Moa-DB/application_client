@@ -61,8 +61,13 @@ class ApplicationForm extends Component {
             {credentials: 'include'}
         )
             .then(res => res.json())
+            .then((response) =>
+            {
+                if (response.error) throw new Error("Something went wrong. Please reload the page.");
+                else return response;
+            })
             .then(data => this.setState({competences: data, competence: data[0].name}))
-            .catch(e => console.log(e))
+            .catch(e => { alert(e.message);})
     }
 
     /**
@@ -370,18 +375,15 @@ class ApplicationForm extends Component {
             },
             body: JSON.stringify(application),
         }).then((response) => {
-            if(!response.ok)
-                return response.json();
-            else
-                return response;
+            return response.json();
         }).then((response) => {
-            if(!response.ok) throw new Error(response.message);
+            if(response.error) throw new Error("Something went wrong. Please try again.");
             else return response;
         }).then((data) => {
             alert("Application posted!");
             this.reset();
         }).catch((error) => {
-            alert(error);
+            alert(error.message);
         });
     }
 

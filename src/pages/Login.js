@@ -67,8 +67,9 @@ class Login extends Component{
             body: data,
         })
             .then((response) => {
+                console.log(response)
                 if(!response.ok && response.status === 401) throw new Error("Wrong username or password");
-                else if(!response.ok && response.status === 500) throw new Error("Internal Server Error");
+                else if(!response.ok) throw new Error("Oops! Something went wrong. Please try again in a few minutes.");
                 else return response.json();
             })
             .then((data) => {
@@ -79,9 +80,7 @@ class Login extends Component{
                     alert("You are not authorized to use this web site. \n Required authority: applicant \n Your authority: " + data.roles[0].name);
                 });
             })
-            .catch((error) => {
-                alert(error)
-            });
+            .catch((error) => {alert(error.message)});
     };
 
     handleInputChange(event) {

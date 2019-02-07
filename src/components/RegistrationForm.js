@@ -177,19 +177,18 @@ class RegistrationForm extends Component{
             },
             body: JSON.stringify(jsonRequest),
         }).then((response) => {
-            if(!response.ok)
-                return response.json();
-            else
-                return response;
+            return response.json();
         }).then((response) => {
-            if(!response.ok) throw new Error(response.message);
+            console.log(response)
+            if ((response.error) && response.status === 409) {throw new Error("The username already exists, please try another.")}
+            if(response.error) throw new Error("Something went wrong, please try again in a few minutes");
             else return response;
         }).then((data) => {
                 alert("User created");
             this.props.history.replace('/login');
             })
-            .catch((error) => {
-                alert(error);
+            .catch((e) => {
+                alert(e.message);
             });
     }
 }
